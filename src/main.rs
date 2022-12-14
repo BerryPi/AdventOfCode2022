@@ -3,6 +3,7 @@ use std::fs::File;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 fn main() {
     let mut line = String::new();
@@ -25,6 +26,8 @@ fn main() {
         "2-2" => day2::part2,
         "3-1" => day3::part1,
         "3-2" => day3::part2,
+        "4-1" => day4::part1,
+        "4-2" => day4::part2,
         _ => panic!("Problem is invalid or not yet implemented.")
     };
 
