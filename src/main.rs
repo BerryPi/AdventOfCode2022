@@ -8,43 +8,25 @@ fn main() {
     let mut line = String::new();
     let stdin = io::stdin();
     stdin.read_line(&mut line).expect("Could not read the problem code.");
+    
+    let problem = line.trim();
 
-    if line.starts_with("1-") {
-        let file = File::open("./inputs/day1.txt").unwrap();
-        let buf_reader = io::BufReader::new(file).lines();
-        let lines = buf_reader.map(|l| l.unwrap()).collect::<Vec<String>>();
+    let (problem_num, _part_num) = line.split_once('-').expect("Invalid problem number.");
+    let input_file = format!("./inputs/day{}.txt", problem_num);
 
-        if line.starts_with("1-1") {
-            println!("{}", day1::part1(lines));
-        }
-        else if line.starts_with("1-2") {
-            println!("{}", day1::part2(lines));
-        }
-    }
+    let file = File::open(input_file).unwrap();
+    let buf_reader = io::BufReader::new(file).lines();
+    let lines = buf_reader.map(|l| l.unwrap()).collect::<Vec<String>>();
 
-    else if line.starts_with("2-") {
-        let file = File::open("./inputs/day2.txt").unwrap();
-        let buf_reader = io::BufReader::new(file).lines();
-        let lines = buf_reader.map(|l| l.unwrap()).collect::<Vec<String>>();
+    let problem_fn = match problem {
+        "1-1" => day1::part1,
+        "1-2" => day1::part2,
+        "2-1" => day2::part1,
+        "2-2" => day2::part2,
+        "3-1" => day3::part1,
+        "3-2" => day3::part2,
+        _ => panic!("Problem is invalid or not yet implemented.")
+    };
 
-        if line.starts_with("2-1") {
-            println!("{}", day2::part1(lines));
-        }
-        else if line.starts_with("2-2") {
-            println!("{}", day2::part2(lines));
-        }
-    }
-
-    else if line.starts_with("3-") {
-        let file = File::open("./inputs/day3.txt").unwrap();
-        let buf_reader = io::BufReader::new(file).lines();
-        let lines = buf_reader.map(|l| l.unwrap()).collect::<Vec<String>>();
-
-        if line.starts_with("3-1") {
-            println!("{}", day3::part1(lines));
-        }
-        else if line.starts_with("3-2") {
-            println!("{}", day3::part2(lines));
-        }
-    }
+    println!("{}", problem_fn(lines));
 }
