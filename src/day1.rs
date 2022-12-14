@@ -8,17 +8,17 @@ fn sorted_elf_totals(input: Vec<String>) -> impl Iterator<Item = i32> {
     return elf_totals.sorted_by(|a, b| b.cmp(a));
 }
 
-pub fn part1(input: Vec<String>) -> i32 {
+pub fn part1(input: Vec<String>) -> String {
     let mut elf_totals = sorted_elf_totals(input);
 
     let max = elf_totals.next().unwrap();
-    return max;
+    return max.to_string();
 }
 
-pub fn part2(input: Vec<String>) -> i32 {
+pub fn part2(input: Vec<String>) -> String {
     let elf_totals = sorted_elf_totals(input);
 
     let top_n = elf_totals.take(3);
-    let total = top_n.sum();
-    return total;
+    let total: i32 = top_n.sum();
+    return total.to_string();
 }

@@ -35,18 +35,18 @@ fn do_ranges_overlap(range1: &(i32, i32), range2: &(i32, i32)) -> bool {
     }
 }
 
-pub fn part1(input: Vec<String>) -> i32 {
+pub fn part1(input: Vec<String>) -> String {
     let containments = input.iter()
         .map(parse_ranges)
         .filter(|(range1, range2)| do_ranges_contain(range1, range2));
     
-        return containments.count() as i32;
+        return containments.count().to_string();
 }
 
-pub fn part2(input: Vec<String>) -> i32 {
+pub fn part2(input: Vec<String>) -> String {
     let containments = input.iter()
         .map(parse_ranges)
         .filter(|(range1, range2)| do_ranges_overlap(range1, range2));
     
-        return containments.count() as i32;
+        return containments.count().to_string();
 }

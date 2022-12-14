@@ -14,7 +14,7 @@ fn get_action_pairs(input: Vec<String>) -> Vec<(u8, u8)> {
     return action_pairs;
 }
 
-pub fn part1(input: Vec<String>) -> i32 {
+pub fn part1(input: Vec<String>) -> String {
     let action_pairs = get_action_pairs(input);
     
     // In the pair list, rock is 0. The action scores need to be incremented by 1.
@@ -33,10 +33,10 @@ pub fn part1(input: Vec<String>) -> i32 {
         .map(|(action_score, outcome_score)| (action_score + outcome_score) as i32)
         .sum();
     
-    return total_score;
+    return total_score.to_string();
 }
 
-pub fn part2(input: Vec<String>) -> i32 {
+pub fn part2(input: Vec<String>) -> String {
     let action_pairs = get_action_pairs(input);
 
     // This time, the second number is the outcome, and it just needs to be scaled.
@@ -57,5 +57,5 @@ pub fn part2(input: Vec<String>) -> i32 {
         .map(|(action_score, outcome_score)| (action_score + outcome_score) as i32)
         .sum();
     
-    return total_score;
+    return total_score.to_string();
 }

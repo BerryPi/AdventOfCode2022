@@ -21,11 +21,12 @@ fn item_score(item: u8) -> i32 {
     return 0;
 }
 
-pub fn part1(input: Vec<String>) -> i32 {
+pub fn part1(input: Vec<String>) -> String {
     return input.iter()
         .map(find_duplicated_item)
         .map(item_score)
-        .sum();
+        .sum::<i32>()
+        .to_string();
 }
 
 fn find_badge(sacks: Vec<&String>) -> u8 {
@@ -37,12 +38,13 @@ fn find_badge(sacks: Vec<&String>) -> u8 {
     return item.unwrap();
 }
 
-pub fn part2(input: Vec<String>) -> i32 {
+pub fn part2(input: Vec<String>) -> String {
     return input.iter()
         .chunks(3)
         .into_iter()
         .map(|c| c.collect::<Vec<&String>>())
         .map(find_badge)
         .map(item_score)
-        .sum();
+        .sum::<i32>()
+        .to_string();
 }
