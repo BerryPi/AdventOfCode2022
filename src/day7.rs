@@ -8,14 +8,14 @@ enum FsItem {
     Dir(String, Vec<usize>)
 }
 
-fn parse_file(line: &String) -> FsItem {
-    let (size_s, name) = line.split_once(" ").unwrap();
-    return FsItem::File(name.to_string(), size_s.parse::<i32>().unwrap());
+fn parse_file(line: &str) -> FsItem {
+    let (size_s, name) = line.split_once(' ').unwrap();
+    FsItem::File(name.to_string(), size_s.parse::<i32>().unwrap())
 }
 
-fn parse_dir(line: &String) -> FsItem {
-    let (_, name) = line.split_once(" ").unwrap();
-    return FsItem::Dir(name.to_string(), Vec::new());
+fn parse_dir(line: &str) -> FsItem {
+    let (_, name) = line.split_once(' ').unwrap();
+    FsItem::Dir(name.to_string(), Vec::new())
 }
 
 fn handle_ls<'a>(pwd: Rc<RefCell<FsItem>>, filesystem: &mut Vec<Rc<RefCell<FsItem>>>, lines: &mut impl Iterator<Item = &'a String>) {
@@ -23,14 +23,14 @@ fn handle_ls<'a>(pwd: Rc<RefCell<FsItem>>, filesystem: &mut Vec<Rc<RefCell<FsIte
         for next_line in lines {
             // If the line starts with a digit, it's a file + size
             if next_line.chars().next().unwrap().is_numeric() {
-                let file = parse_file(&next_line);
+                let file = parse_file(next_line);
                 let file_id = filesystem.len();
                 filesystem.push(Rc::new(RefCell::new(file)));
                 contents.push(file_id);
             }
             // Assume it's a dir otherwise
             else {
-                let dir = parse_dir(&next_line);
+                let dir = parse_dir(next_line);
                 let dir_id = filesystem.len();
                 filesystem.push(Rc::new(RefCell::new(dir)));
                 contents.push(dir_id);
@@ -39,7 +39,7 @@ fn handle_ls<'a>(pwd: Rc<RefCell<FsItem>>, filesystem: &mut Vec<Rc<RefCell<FsIte
     }
 }
 
-fn handle_cd(path_stack: &mut Vec<usize>, filesystem: &Vec<Rc<RefCell<FsItem>>>, target: &str) {
+fn handle_cd(path_stack: &mut Vec<usize>, filesystem: &[Rc<RefCell<FsItem>>], target: &str) {
     // To root
     if "target" == "/" {
         while path_stack.len() > 1 {
@@ -83,12 +83,12 @@ fn parse_input(input: Vec<String>) -> Vec<Rc<RefCell<FsItem>>> {
             handle_ls(pwd, &mut filesystem, &mut contents);
         }
         else if next_line.starts_with("$ cd") {
-            let parts = next_line.split(" ");
+            let parts = next_line.split(' ');
             let target = parts.last().unwrap();
             handle_cd(&mut path_stack, &filesystem, target);
         }
     }
-    return filesystem;
+    filesystem
 }
 
 // Returning the total size would be the clean way to do this, but this way we get cached
@@ -98,7 +98,7 @@ fn get_total_size(id: usize, filesystem: &Vec<Rc<RefCell<FsItem>>>, cache: &mut 
     match item {
         FsItem::File(_, size) => {
             cache[id] = *size;
-            return *size;
+            *size
         },
         FsItem::Dir(_, contents) => {
             let mut total = 0;
@@ -106,7 +106,7 @@ fn get_total_size(id: usize, filesystem: &Vec<Rc<RefCell<FsItem>>>, cache: &mut 
                 total += get_total_size(*child, filesystem, cache);
             }
             cache[id] = total;
-            return total;
+            total
         }
     }
 }
@@ -123,7 +123,7 @@ pub fn part1(input: Vec<String>) -> String {
         .map(|(_, size)| size)
         .sum::<i32>();
     
-    return total_size.to_string();
+    total_size.to_string()
 }
 
 pub fn part2(input: Vec<String>) -> String {
@@ -145,7 +145,7 @@ pub fn part2(input: Vec<String>) -> String {
     let smallest_qualifier = meets_conditions.min_by_key(|(_, size)| *size);
     let smallest_size = smallest_qualifier.unwrap().1;
 
-    return smallest_size.to_string();
+    smallest_size.to_string()
 }
 
 #[cfg(test)]

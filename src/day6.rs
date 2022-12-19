@@ -15,13 +15,13 @@ fn find_distinct_window(input: Vec<String>, window_size: usize) -> String {
             return (i + window_size).to_string();
         }
     }
-    return "".to_string();
+    "".to_string()
 }
 
 pub fn part1(input: Vec<String>) -> String {
-    return find_distinct_window(input, 4);
+    find_distinct_window(input, 4)
 }
 
 pub fn part2(input: Vec<String>) -> String {
-    return find_distinct_window(input, 14);
+    find_distinct_window(input, 14)
 }

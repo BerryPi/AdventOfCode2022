@@ -3,7 +3,7 @@ use std::iter::zip;
 fn get_action_pairs(input: Vec<String>) -> Vec<(u8, u8)> {
     let action_pairs = input.iter()
         // Split by spaces to get a pair of letters    
-        .map(|l| l.split_once(" ").unwrap())
+        .map(|l| l.split_once(' ').unwrap())
         // Convert the first letter from a range A-C to 0-2, and
         // the second from X-Z. Start by converting to a byte.
         .map(|(left, right)| (left.as_bytes()[0], right.as_bytes()[0]) )
@@ -11,7 +11,7 @@ fn get_action_pairs(input: Vec<String>) -> Vec<(u8, u8)> {
         .map(|(left, right)| (left - 0x41, right - 0x58))
         .collect::<Vec<(u8, u8)>>();
     
-    return action_pairs;
+    action_pairs
 }
 
 pub fn part1(input: Vec<String>) -> String {
@@ -33,7 +33,7 @@ pub fn part1(input: Vec<String>) -> String {
         .map(|(action_score, outcome_score)| (action_score + outcome_score) as i32)
         .sum();
     
-    return total_score.to_string();
+    total_score.to_string()
 }
 
 pub fn part2(input: Vec<String>) -> String {
@@ -57,5 +57,5 @@ pub fn part2(input: Vec<String>) -> String {
         .map(|(action_score, outcome_score)| (action_score + outcome_score) as i32)
         .sum();
     
-    return total_score.to_string();
+    total_score.to_string()
 }

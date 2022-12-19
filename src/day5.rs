@@ -40,10 +40,10 @@ fn parse_stacks(input: &[String]) -> Vec<Vec<char>> {
         }
     }
 
-    return stacks;
+    stacks
 }
 
-fn parse_instruction(inst: &String) -> (usize, usize, i32) {
+fn parse_instruction(inst: &str) -> (usize, usize, i32) {
     let inst_regex = Regex::new(r"move (?P<qty>\d*) from (?P<src>\d*) to (?P<dst>\d*)").unwrap();
     let caps = inst_regex.captures(inst).unwrap();
 
@@ -52,10 +52,10 @@ fn parse_instruction(inst: &String) -> (usize, usize, i32) {
     let src = caps.name("src").unwrap().as_str().parse::<usize>().unwrap() - 1;
     let dst = caps.name("dst").unwrap().as_str().parse::<usize>().unwrap() - 1;
 
-    return (src, dst, qty);
+    (src, dst, qty)
 }
 
-fn apply_instruction(stacks: &mut Vec<Vec<char>>, instr: (usize, usize, i32)) {
+fn apply_instruction(stacks: &mut [Vec<char>], instr: (usize, usize, i32)) {
     let qty = instr.2;
     let src = instr.0;
     let dst = instr.1;
@@ -74,15 +74,15 @@ pub fn part1(input: Vec<String>) -> String {
 
     // After a blank line, the remainder is instructions
     let _ = &input[crates_end + 2..].iter()
-        .map(parse_instruction)
+        .map(|s| parse_instruction(s))
         .for_each(|inst| apply_instruction(&mut crates, inst));
 
     let res = crates.iter()
         .map(|s| s[s.len() - 1]);
-    return String::from_iter(res);
+    String::from_iter(res)
 }
 
-fn apply_instruction_v2(stacks: &mut Vec<Vec<char>>, instr: (usize, usize, i32)) {
+fn apply_instruction_v2(stacks: &mut [Vec<char>], instr: (usize, usize, i32)) {
     let qty = instr.2;
     let src = instr.0;
     let dst = instr.1;
@@ -107,12 +107,12 @@ pub fn part2(input: Vec<String>) -> String {
 
     // After a blank line, the remainder is instructions
     let _ = &input[crates_end + 2..].iter()
-        .map(parse_instruction)
+        .map(|s| parse_instruction(s))
         .for_each(|inst| apply_instruction_v2(&mut crates, inst));
 
     let res = crates.iter()
         .map(|s| s[s.len() - 1]);
-    return String::from_iter(res);
+    String::from_iter(res)
 }
 
 #[cfg(test)]
