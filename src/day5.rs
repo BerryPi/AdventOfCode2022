@@ -115,12 +115,17 @@ pub fn part2(input: Vec<String>) -> String {
     return String::from_iter(res);
 }
 
-#[test]
-fn test_from_sample() {
-    let sample_input = vec!["    [D]".to_string(), "[N] [C]    ".to_string(), "[Z] [M] [P]".to_string()];
-    let actual = parse_stacks(&sample_input[..]);
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    let expected = vec![vec!['Z', 'N'], vec!['M', 'C', 'D'], vec!['P']];
+    #[test]
+    fn test_from_sample() {
+        let sample_input = vec!["    [D]".to_string(), "[N] [C]    ".to_string(), "[Z] [M] [P]".to_string()];
+        let actual = parse_stacks(&sample_input[..]);
 
-    assert_eq!(actual, expected);
+        let expected = vec![vec!['Z', 'N'], vec!['M', 'C', 'D'], vec!['P']];
+
+        assert_eq!(actual, expected);
+    }
 }
